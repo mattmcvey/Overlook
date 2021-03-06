@@ -8,6 +8,9 @@ import './css/base.scss';
 import './images/turing-logo.png'
 import Customer from "./Customer"
 
+const roomNumber = document.getElementById('roomNumber')
+const dateStayed = document.getElementById('dateStayed')
+const totalCost = document.getElementById('totalSpent')
 
 const allCustomersData =
   fetch("http://localhost:3001/api/v1/customers")
@@ -26,5 +29,21 @@ Promise.all([allCustomersData, allBookingsData, allRoomsData])
     const customer = new Customer(allData[0].customers[0])
     let customerBookings = customer.findCustomerBookings(allData[1].bookings)
     let totalSpent = customer.calculateAmountSpent(allData[2].rooms)
-    console.log(allData[2].rooms)
+    displayBookedRooms(customerBookings)
+    costOfAllRooms(totalSpent)
   })
+
+  const displayBookedRooms = (bookings) => {
+    bookings.forEach(booking => {
+      roomNumber.innerHTML +=
+        `<article class="booked-rooms left">${booking.roomNumber}</article>`
+        dateStayed.innerHTML +=
+        `<article class="booked-rooms">${booking.date}</article>`
+    })
+  }
+
+  const costOfAllRooms = (total) => {
+    console.log(totalCost)
+    totalCost.innerHTML +=
+      `<article class="total-spent">$${total}</article>`
+  }
