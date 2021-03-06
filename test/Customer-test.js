@@ -50,4 +50,8 @@ describe("Customer", function() {
     customer.findCustomerBookings(bookings)
     expect(customer.calculateAmountSpent(rooms)).to.equal(1258.4)
   })
+  it('should give back data of available dates', function() {
+    customer.filterRoomsByDate(bookings, rooms, "2020/01/10")
+
+  })
 });

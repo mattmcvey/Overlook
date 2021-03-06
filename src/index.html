@@ -31,17 +31,17 @@
     <h2>Book A Room</h2>
     <section>
       <div class="book-room-container">
-        <label for="date">Date</label>
-          <input type="date" id="date" name="book-date" min="2019/1/1" max="2021/1/1">
+        <label for="date">Select A Date</label>
+        <input type="date" id="date" class="date" name="book-date">
       </div>
       <div class="book-room-container">
-        <label for="roomType">Room Type</label>
-        <select id = "roomType">
+        <label for="roomType">Select Room Type</label>
+        <select id = "roomType" class="roomType">
           <option value="default">Select Room Type</option>
-          <option value="default">Single Room</option>
-          <option value="default">Residential Suite</option>
-          <option value="default">Junior Suite</option>
-          <option value="default">Suite</option>
+          <option value="single room">Single Room</option>
+          <option value="residential suite">Residential Suite</option>
+          <option value="junior suite">Junior Suite</option>
+          <option value="suite">Suite</option>
         </select>
       </div>
     </section>
