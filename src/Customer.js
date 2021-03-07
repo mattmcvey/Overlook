@@ -5,7 +5,6 @@ class Customer {
     this.customerBookings = [];
     this.totalSpent = 0;
     this.availableRooms = []
-    this.unavailableRooms = []
   }
   findCustomerBookings(bookings) {
     this.customerBookings = bookings.filter(booking => booking.userID === this.id)
@@ -23,32 +22,24 @@ class Customer {
     return total
   }
   filterRoomsByDate(bookings, rooms, date) {
-    
-
-      console.log(unavailableRooms)
-
-
-    //
-    // const this.availableRooms = rooms.reduce((acc, room) => {
-    //   bookings.forEach(booking => {
-    //     if (!acc.includes(room) && room.number === booking.roomNumber && date !==)
-    //   })
-    //   return acc
-    // }, [])
-    // const unavailableRooms = bookings.filter(booking => booking.date === date)
-    // console.log(unavailableRooms)
-    // rooms.forEach(room => {
-    //   unavailableRooms.forEach(bookedRoom => {
-    //     if(!unavailableRooms.includes()room.number === bookedRoom.roomNumber && )
-    //   })
-    // })
-
+    this.unavailableRooms = bookings.reduce((acc, booking) => {
+      rooms.forEach(room => {
+        if (room.number === booking.roomNumber && date === booking.date) {
+          acc.push(room)
+        }
+      })
+      return acc
+    }, [])
+    rooms.forEach(room => {
+      if (!this.unavailableRooms.includes(room)) {
+        this.availableRooms.push(room)
+      }
+    })
     return this.availableRooms
-    //input: an array of bookings
-    // output: an array of non booked rooms
-    // loop over the bookings array
-    // if roomNumber does not exist on a specific date
-    // push that room to available rooms array
+  }
+  filterByRoomType(roomType) {
+    const filteredAvailableRooms = this.availableRooms.filter(room => room.roomType === roomType)
+    return filteredAvailableRooms
   }
 }
 

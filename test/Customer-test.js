@@ -50,8 +50,125 @@ describe("Customer", function() {
     customer.findCustomerBookings(bookings)
     expect(customer.calculateAmountSpent(rooms)).to.equal(1258.4)
   })
-  it('should give back data of available dates', function() {
+  it('should give back data of available rooms on given date', function() {
+    expect(customer.filterRoomsByDate(bookings, rooms, "2020/01/10")).to.deep.equal([
+  {
+    number: 1,
+    roomType: 'residential suite',
+    bidet: true,
+    bedSize: 'queen',
+    numBeds: 1,
+    costPerNight: 358.4
+  },
+  {
+    number: 3,
+    roomType: 'single room',
+    bidet: false,
+    bedSize: 'king',
+    numBeds: 1,
+    costPerNight: 358.4
+  },
+  {
+    number: 4,
+    roomType: 'single room',
+    bidet: false,
+    bedSize: 'queen',
+    numBeds: 1,
+    costPerNight: 358.4
+  },
+  {
+    number: 15,
+    roomType: 'single room',
+    bidet: true,
+    bedSize: 'queen',
+    numBeds: 2,
+    costPerNight: 200
+  },
+  {
+    number: 5,
+    roomType: 'junior suite',
+    bidet: true,
+    bedSize: 'queen',
+    numBeds: 1,
+    costPerNight: 700
+  },
+  {
+    number: 7,
+    roomType: 'single room',
+    bidet: false,
+    bedSize: 'queen',
+    numBeds: 2,
+    costPerNight: 358.4
+  },
+  {
+    number: 8,
+    roomType: 'junior suite',
+    bidet: false,
+    bedSize: 'king',
+    numBeds: 1,
+    costPerNight: 358.4
+  },
+  {
+    number: 9,
+    roomType: 'single room',
+    bidet: true,
+    bedSize: 'queen',
+    numBeds: 1,
+    costPerNight: 358.4
+  },
+  {
+    number: 10,
+    roomType: 'suite',
+    bidet: false,
+    bedSize: 'twin',
+    numBeds: 1,
+    costPerNight: 358.4
+  }
+])
+  })
+  it('should filter all available rooms by type', function() {
     customer.filterRoomsByDate(bookings, rooms, "2020/01/10")
-
+    expect(customer.filterByRoomType('single room')).to.deep.equal([
+  {
+    number: 3,
+    roomType: 'single room',
+    bidet: false,
+    bedSize: 'king',
+    numBeds: 1,
+    costPerNight: 358.4
+  },
+  {
+    number: 4,
+    roomType: 'single room',
+    bidet: false,
+    bedSize: 'queen',
+    numBeds: 1,
+    costPerNight: 358.4
+  },
+  {
+    number: 15,
+    roomType: 'single room',
+    bidet: true,
+    bedSize: 'queen',
+    numBeds: 2,
+    costPerNight: 200
+  },
+  {
+    number: 7,
+    roomType: 'single room',
+    bidet: false,
+    bedSize: 'queen',
+    numBeds: 2,
+    costPerNight: 358.4
+  },
+  {
+    number: 9,
+    roomType: 'single room',
+    bidet: true,
+    bedSize: 'queen',
+    numBeds: 1,
+    costPerNight: 358.4
+  }
+])
   })
 });
