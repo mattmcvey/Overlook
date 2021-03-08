@@ -3,5 +3,48 @@ $primary-background: radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(252,70,1
 ;
 
 body {
-  background: $primary-background;
+
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.profile {
+  text-align: center;
+}
+
+
+
+.booked-rooms-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: 1fr;
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
+}
+
+.book-room-section {
+  display: flex;
+  justify-content: space-around;
+}
+
+.search-results-display {
+  display: flex;
+  justify-content: space-around;
+  text-align: center;
+}
+
+.search-results-display {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  .search-results {
+    border: 2px solid red;
+  }
+}
+
+.hidden {
+  display:none;
 }

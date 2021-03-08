@@ -1,12 +1,54 @@
 <!DOCTYPE html>
 <html lang="en-US">
   <head>
-    <title>Webpack Starter Kit</title>
+    <title>Overlook</title>
   </head>
   <body>
-    <h1>Webpack Starter Kit</h1>
-
-    <img src="./images/turing-logo.png" alt="turing logo" height="100px" width="100px">
+    <header>
+      <h1>Overlook</h1>
+      <p>username</p>
+    </header>
+    <h2>Profile</h2>
+    <section class="profile">
+      <section class="spent-container">
+        <h3>Total Spent</h3>
+        <article id="totalSpent"></article>
+      </section>
+      <h3>Booked Rooms</h3>
+      <section class="booked-rooms-container">
+        <div>
+          <h4>Room Number
+            <article id="roomNumber"></article>
+          </h4>
+        </div>
+        <div>
+          <h4 class="date-of-stay">Date of Stay
+            <article id="dateStayed"></article>
+          </h4>
+        </div>
+      </section>
+    </section>
+    <h2>Book A Room</h2>
+    <section class="book-room-section">
+      <div class="date">
+        <label for="date">Select A Date</label>
+        <input type="date" class="date-input" name="book-date" value="2021/03/08" min="2021/03/08">
+      </div>
+      <div class="drop-down">
+        <label for="roomType">Select Room Type</label>
+        <select id = "roomType" class="roomType">
+          <option value="default">Select Room Type</option>
+          <option value="single room">Single Room</option>
+          <option value="residential suite">Residential Suite</option>
+          <option value="junior suite">Junior Suite</option>
+          <option value="suite">Suite</option>
+        </select>
+      </div>
+    </section>
+    <section class="search-results-display">
+    </section>
+    <p class="past-date"></p>
+    <!-- <img src="./images/turing-logo.png" alt="turing logo" height="100px" width="100px"> -->
 
     <!-- Do not include the index.js or main.bundle.js file here - it is done automatically by the webpack server -->
   </body>
