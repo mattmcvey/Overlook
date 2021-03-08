@@ -15,13 +15,7 @@ const date = document.querySelector('.date')
 const startingValueDate = document.querySelector('input[type="date"]')
 const roomTypeDropDown = document.querySelector('.roomType')
 const dateInput = document.querySelector('.date-input')
-const roomsAvailable = document.querySelector('.available-rooms')
-const availableRoomNumber = document.querySelector('.room-number')
-const availableRoomType = document.querySelector('.room-type')
-const availableRoomBidet = document.querySelector('.bidet')
-const availableRoomBedSize = document.querySelector('.bed-size')
-const availableRoomNumBeds = document.querySelector('.num-beds')
-const availableRoomCost = document.querySelector('.cost')
+const searchResults = document.querySelector('.search-results-display')
 
 const todaysDate = new Date()
 const formattedDate = moment(todaysDate).format('YYYY/MM/DD')
@@ -48,11 +42,15 @@ Promise.all([allCustomersData, allBookingsData, allRoomsData])
     const totalSpent = customer.calculateAmountSpent(allData[2].rooms)
     displayBookedRooms(customer, bookingData)
     costOfAllRooms(customer, roomData, totalSpent)
-    roomTypeDropDown.addEventListener('change', filterRoomsByType)
+    roomTypeDropDown.addEventListener('change', function() {
+      filterRoomsByType(customer)
+    })
     date.addEventListener('change', function() {
       filterMatchingRooms(customer, bookingData, roomData)
     })
-    updateCalendarDay()
+    searchResults.addEventListener('click', function() {
+      selectRoomToBook(customer)
+    })
   })
 
 const displayBookedRooms = (customer, bookingData) => {
@@ -66,55 +64,78 @@ const displayBookedRooms = (customer, bookingData) => {
 }
 
 const costOfAllRooms = (customer, roomData) => {
+  console.log(customer)
   const total = customer.calculateAmountSpent(roomData)
   totalCost.innerHTML =
     `<article class="total-spent">$${total}</article>`
 }
 
-const updateCalendarDay = () => {
-  console.log(formattedDate)
-  // date.innerHTML = `
-  // <label for="date">Select A Date</label>
-  // <input type="date" class="date-input" name="book-date"  min="${formattedDate}">`
-}
-
 const filterMatchingRooms = (customer, bookings, rooms) => {
   const inputDate = dateInput.value.split("-").join("/")
   if(inputDate < formattedDate) {
-    roomsAvailable.innerText = "Please select a room in the  future!"
+    document.querySelector(".past-date").innerText = "Please select a room in the  future!"
   } else {
-    displayAvailableRooms(customer, bookings, rooms, inputDate)
+    const openRooms = customer.filterRoomsByDate(bookings, rooms, date)
+    displayAvailableRooms(openRooms)
   }
 }
 
-const displayAvailableRooms = (customer, bookings, rooms, date) => {
-  availableRoomNumber.innerHTML = ''
-  availableRoomType.innerHTML = ''
-  availableRoomBidet.innerHTML = ''
-  availableRoomBedSize.innerHTML = ''
-  availableRoomNumBeds.innerHTML = ''
-  availableRoomCost.innerHTML = ''
-  customer.filterRoomsByDate(bookings, rooms, date).forEach(room => {
+const filterRoomsByType = (customer) => {
+  const type = roomType.value
+  console.log(customer.availableRooms)
+  if(!customer.availableRooms.length) {
+    document.querySelector(".past-date").innerText = "Please choose a date before selecting room type."
+  }
+  const openRooms = customer.filterByRoomType(type)
+  displayAvailableRooms(openRooms)
+}
+
+const displayAvailableRooms = (rooms) => {
+  const inputDate = dateInput.value.split("-").join("/")
+  searchResults.innerHTML = ''
+  rooms.forEach(room => {
     if(room.bidet === true) {
-      room.bidet = "Yes"
-    } else {
-      room.bidet = "No"
-    }
-    availableRoomNumber.innerHTML +=
-    `<article class="room-number">${room.number}</article>`
-    availableRoomType.innerHTML +=
-    `<article class="room-number">${room.roomType}</article>`
-    availableRoomBidet.innerHTML +=
-    `<article class="room-number">${room.bidet}</article>`
-    availableRoomBedSize.innerHTML +=
-    `<article class="room-number">${room.bedSize}</article>`
-    availableRoomNumBeds.innerHTML +=
-    `<article class="room-number">${room.numBeds}</article>`
-    availableRoomCost.innerHTML +=
-    `<article class="room-number">${room.costPerNight}</article>`
+        room.bidet = "Yes"
+      } else {
+        room.bidet = "No"
+      }
+    searchResults.innerHTML +=
+    `<article class="search-results" id="${room.number}-${inputDate}">
+      <p>Room Number: ${room.number}</p>
+      <p>Room Type: ${room.roomType}</p>
+      <p>Bidet: ${room.bidet}</p>
+      <p>Bed Siz: ${room.bedSize}</p>
+      <p>Number Of Beds: ${room.numBeds}</p>
+      <p>Room Cost: ${room.costPerNight}
+    </article>`
   })
 }
 
-const filterRoomsByType = () => {
-  console.log(roomType.value)
+const selectRoomToBook = (customer) => {
+  const postInfo = event.target.closest('article')
+  const postData = postInfo.id.split('-')
+  const dataToPost = {
+    "userID": customer.id,
+    "date": postData[1],
+    "roomNumber": parseInt(postData[0]),
+    "roomServiceCharges": []
+  }
+  bookRoom(dataToPost)
+}
+
+const bookRoom = (dataToPost) => {
+  fetch("http://localhost:3001/api/v1/bookings", {
+    method: "POST",
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify(dataToPost)
+  })
+  .then(response => {
+    if(!response.ok) {
+      throw new Error(response.statusText)
+    }
+    return response.json()
+  })
+  .catch(error => {
+    console.log(error)
+  })
 }

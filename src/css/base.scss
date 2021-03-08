@@ -25,14 +25,6 @@ header {
   grid-row-gap: 0px;
 }
 
-.booked-rooms {
-
-}
-
-.date-of-stay {
-
-}
-
 .book-room-section {
   display: flex;
   justify-content: space-around;
@@ -44,6 +36,15 @@ header {
   text-align: center;
 }
 
-.room-number-container {
+.search-results-display {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  .search-results {
+    border: 2px solid red;
+  }
+}
 
+.hidden {
+  display:none;
 }
