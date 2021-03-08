@@ -6,7 +6,7 @@ class Customer {
     this.totalSpent = 0;
     this.availableRooms = []
   }
-  findCustomerBookings(bookings) {
+  findCustomerBookings(bookings, rooms) {
     this.customerBookings = bookings.filter(booking => booking.userID === this.id)
     return this.customerBookings
   }
@@ -19,7 +19,7 @@ class Customer {
       })
       return totalSpent
     }, 0)
-    return total
+    return total.toFixed(2)
   }
   filterRoomsByDate(bookings, rooms, date) {
     this.unavailableRooms = bookings.reduce((acc, booking) => {
@@ -31,7 +31,7 @@ class Customer {
       return acc
     }, [])
     rooms.forEach(room => {
-      if (!this.unavailableRooms.includes(room)) {
+      if (!this.unavailableRooms.includes(room) && !this.availableRooms.includes(room)) {
         this.availableRooms.push(room)
       }
     })

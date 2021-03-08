@@ -8,6 +8,7 @@ import moment from "moment"
 import './images/turing-logo.png'
 import Customer from "./Customer"
 
+const bookedRooms = document.querySelector('.booked-rooms-container')
 const roomNumber = document.getElementById('roomNumber')
 const dateStayed = document.getElementById('dateStayed')
 const totalCost = document.getElementById('totalSpent')
@@ -16,9 +17,10 @@ const startingValueDate = document.querySelector('input[type="date"]')
 const roomTypeDropDown = document.querySelector('.roomType')
 const dateInput = document.querySelector('.date-input')
 const searchResults = document.querySelector('.search-results-display')
+const searchButton = document.querySelector('.submit-search')
 
 const todaysDate = new Date()
-const formattedDate = moment(todaysDate).format('YYYY/MM/DD')
+const formattedDate = moment(todaysDate).format('YYYY-MM-DD')
 startingValueDate.value = formattedDate
 startingValueDate.min = formattedDate
 
@@ -42,11 +44,9 @@ Promise.all([allCustomersData, allBookingsData, allRoomsData])
     const totalSpent = customer.calculateAmountSpent(allData[2].rooms)
     displayBookedRooms(customer, bookingData)
     costOfAllRooms(customer, roomData, totalSpent)
-    roomTypeDropDown.addEventListener('change', function() {
-      filterRoomsByType(customer)
-    })
-    date.addEventListener('change', function() {
+    searchButton.addEventListener('click', function() {
       filterMatchingRooms(customer, bookingData, roomData)
+      filterRoomsByType(customer)
     })
     searchResults.addEventListener('click', function() {
       selectRoomToBook(customer)
@@ -55,11 +55,17 @@ Promise.all([allCustomersData, allBookingsData, allRoomsData])
 
 const displayBookedRooms = (customer, bookingData) => {
   const bookings = customer.findCustomerBookings(bookingData)
+  bookedRooms.innerHTML += ''
   bookings.forEach(booking => {
-    roomNumber.innerHTML +=
-      `<article class="booked-rooms left">${booking.roomNumber}</article>`
-      dateStayed.innerHTML +=
-      `<article class="booked-rooms">${booking.date}</article>`
+    bookedRooms.innerHTML +=
+    `<article class="booked-rooms-card">
+      <p>Date Of Stay: ${booking.date}</p>
+      <p>Room Number: ${booking.roomNumber}</p>
+    </article>`
+    // roomNumber.innerHTML +=
+    //   `<article class="booked-rooms left">${booking.roomNumber}</article>`
+    // dateStayed.innerHTML +=
+    //   `<article class="booked-rooms">${booking.date}</article>`
   })
 }
 
@@ -82,7 +88,6 @@ const filterMatchingRooms = (customer, bookings, rooms) => {
 
 const filterRoomsByType = (customer) => {
   const type = roomType.value
-  console.log(customer.availableRooms)
   if(!customer.availableRooms.length) {
     document.querySelector(".past-date").innerText = "Please choose a date before selecting room type."
   }

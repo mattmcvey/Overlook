@@ -16,7 +16,7 @@
       </section>
       <h3>Booked Rooms</h3>
       <section class="booked-rooms-container">
-        <div>
+        <!-- <div>
           <h4>Room Number
             <article id="roomNumber"></article>
           </h4>
@@ -25,18 +25,18 @@
           <h4 class="date-of-stay">Date of Stay
             <article id="dateStayed"></article>
           </h4>
-        </div>
+        </div> -->
       </section>
     </section>
     <h2>Book A Room</h2>
     <section class="book-room-section">
       <div class="date">
-        <label for="date">Select A Date</label>
-        <input type="date" class="date-input" name="book-date" value="2021/03/08" min="2021/03/08">
+        <label for="date">Select A Date: </label>
+        <input type="date" id="date" class="date-input" name="book-date">
       </div>
       <div class="drop-down">
-        <label for="roomType">Select Room Type</label>
-        <select id = "roomType" class="roomType">
+        <label for="roomType">Select Room Type: </label>
+        <select id="roomType" class="roomType">
           <option value="default">Select Room Type</option>
           <option value="single room">Single Room</option>
           <option value="residential suite">Residential Suite</option>
@@ -44,6 +44,7 @@
           <option value="suite">Suite</option>
         </select>
       </div>
+      <button class="submit-search">Search Rooms</button>
     </section>
     <section class="search-results-display">
     </section>
