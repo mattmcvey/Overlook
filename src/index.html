@@ -18,7 +18,7 @@
       <section class="booked-rooms-container">
         <div>
           <h4>Room Number
-            <article class="room-number" id="roomNumber"></article>
+            <article id="roomNumber"></article>
           </h4>
         </div>
         <div>
@@ -29,12 +29,12 @@
       </section>
     </section>
     <h2>Book A Room</h2>
-    <section>
-      <div class="book-room-container">
+    <section class="book-room-section">
+      <div class="date">
         <label for="date">Select A Date</label>
-        <input type="date" id="date" class="date" name="book-date">
+        <input type="date" class="date-input" name="book-date" value="2021/03/08" min="2021/03/08">
       </div>
-      <div class="book-room-container">
+      <div class="drop-down">
         <label for="roomType">Select Room Type</label>
         <select id = "roomType" class="roomType">
           <option value="default">Select Room Type</option>
@@ -44,6 +44,26 @@
           <option value="suite">Suite</option>
         </select>
       </div>
+    </section>
+    <section class="search-results-display">
+      <article class="room-number-container">Room Number
+        <article class="room-number"></article>
+      </article>
+      <article class="room-type-container">Room Type
+        <article class="room-type"></article>
+      </article>
+      <article class="bidet-container">Bidet
+        <article class="bidet"></article>
+      </article>
+      <article class="bed-size-container">Bed Size
+        <article class="bed-size"></article>
+      </article>
+      <article class="num-beds-container">Number Of Beds
+        <article class="num-beds"></article>
+      </article>
+      <article class="cost-container">Cost Per Night
+        <article class="cost"></article>
+      </article>
     </section>
     <!-- <img src="./images/turing-logo.png" alt="turing logo" height="100px" width="100px"> -->
 
