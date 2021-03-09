@@ -6,7 +6,7 @@ class Customer {
     this.totalSpent = 0;
     this.availableRooms = []
   }
-  findCustomerBookings(bookings) {
+  findCustomerBookings(bookings, rooms) {
     this.customerBookings = bookings.filter(booking => booking.userID === this.id)
     return this.customerBookings
   }
@@ -19,7 +19,10 @@ class Customer {
       })
       return totalSpent
     }, 0)
-    return total
+    const trimmedTotal = total.toFixed(2)
+    let totalFormatted = trimmedTotal.toString().split(".");
+    totalFormatted[0] = totalFormatted[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return totalFormatted.join(".");
   }
   filterRoomsByDate(bookings, rooms, date) {
     this.unavailableRooms = bookings.reduce((acc, booking) => {
@@ -31,7 +34,7 @@ class Customer {
       return acc
     }, [])
     rooms.forEach(room => {
-      if (!this.unavailableRooms.includes(room)) {
+      if (!this.unavailableRooms.includes(room) && !this.availableRooms.includes(room)) {
         this.availableRooms.push(room)
       }
     })

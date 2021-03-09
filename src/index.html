@@ -1,42 +1,35 @@
 <!DOCTYPE html>
 <html lang="en-US">
   <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css2?family=RocknRoll+One&display=swap" rel="stylesheet">
     <title>Overlook</title>
   </head>
   <body>
     <header>
-      <h1>Overlook</h1>
-      <p>username</p>
+      <h1 class="title">Overlook</h1>
+      <p class="user">username</p>
     </header>
-    <h2>Profile</h2>
     <section class="profile">
+    <h2 class="profile-header">Profile</h2>
       <section class="spent-container">
         <h3>Total Spent</h3>
         <article id="totalSpent"></article>
       </section>
-      <h3>Booked Rooms</h3>
+      <h3>My Booked Rooms</h3>
       <section class="booked-rooms-container">
-        <div>
-          <h4>Room Number
-            <article id="roomNumber"></article>
-          </h4>
-        </div>
-        <div>
-          <h4 class="date-of-stay">Date of Stay
-            <article id="dateStayed"></article>
-          </h4>
-        </div>
       </section>
     </section>
-    <h2>Book A Room</h2>
+    <h2 class="book-a-room">Book A Room</h2>
     <section class="book-room-section">
       <div class="date">
-        <label for="date">Select A Date</label>
-        <input type="date" class="date-input" name="book-date" value="2021/03/08" min="2021/03/08">
+        <label for="date">Select A Date: </label>
+        <input type="date" id="date" class="date-input" name="book-date">
       </div>
       <div class="drop-down">
-        <label for="roomType">Select Room Type</label>
-        <select id = "roomType" class="roomType">
+        <label for="roomType">Select Room Type: </label>
+        <select id="roomType" class="roomType">
           <option value="default">Select Room Type</option>
           <option value="single room">Single Room</option>
           <option value="residential suite">Residential Suite</option>
@@ -44,10 +37,13 @@
           <option value="suite">Suite</option>
         </select>
       </div>
+      <button class="submit-search">Search Rooms</button>
     </section>
-    <section class="search-results-display">
+    <section class="search-results-section">
+      <h3 class="search-results hidden">Search Results</h3>
+      <section class="search-results-display">
+      </section>
     </section>
-    <p class="past-date"></p>
     <!-- <img src="./images/turing-logo.png" alt="turing logo" height="100px" width="100px"> -->
 
     <!-- Do not include the index.js or main.bundle.js file here - it is done automatically by the webpack server -->
