@@ -19,6 +19,27 @@ header {
   }
 }
 
+.login {
+  display: $flex-dispaly;
+  flex-direction: column;
+  background-color: $section-background-color;
+  margin: auto;
+  padding: 10px;
+  width: 20%;
+  border-radius: 0px 0px 10px 10px;
+  .login-button {
+    @include button-style()
+  }
+  .username-login, .password-login {
+    border-radius: 5px;
+  }
+}
+
+.login-error {
+  text-align: center;
+  color: red;
+}
+
 h2 {
   margin-left: 10px;
 }
@@ -42,7 +63,7 @@ h3 {
 }
 
 .booked-rooms-container {
-  display: flex;
+  display: $flex-dispaly;
   flex-wrap: wrap;
   justify-content: space-around;
   .booked-rooms-card {
@@ -53,12 +74,6 @@ h3 {
 .book-room-section {
   display: $flex-dispaly;
   justify-content: space-around;
-}
-
-.search-results-display {
-  display: $flex-dispaly;
-  justify-content: space-around;
-  text-align: $align-center;
 }
 
 .search-results-display {
@@ -106,20 +121,8 @@ h3 {
   @include button-style()
 }
 
-.login {
-  display: $flex-dispaly;
-  flex-direction: column;
-  background-color: $section-background-color;
-  margin: auto;
-  padding: 10px;
-  width: 20%;
-  border-radius: 0px 0px 10px 10px;
-  .login-button {
-    @include button-style()
-  }
-  .username-login, .password-login {
-    border-radius: 5px;
-  }
+.current-room-booked {
+  @include card-style()
 }
 
 .hidden {

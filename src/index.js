@@ -16,6 +16,7 @@ const searchButton = document.querySelector('.submit-search')
 const loginButton = document.querySelector('.login-button')
 const userName = document.querySelector('.username-login')
 const password = document.querySelector('.password-login')
+const loginError = document.querySelector('.login-error')
 
 let formattedDate
 
@@ -28,8 +29,9 @@ const findCustomerAndSetDate = () => {
     document.querySelector('.customer-landing-page').classList.remove('hidden')
     document.querySelector('.user').classList.remove('hidden')
     fetchData(loggedInUser)
+    loginError.classList.add('hidden')
   } else {
-
+    loginError.innerText = 'Please enter a valid username and password!'
   }
 }
 
@@ -106,12 +108,8 @@ const costOfAllRooms = (customer, roomData) => {
 
 const filterMatchingRooms = (customer, bookings, rooms) => {
   const inputDate = dateInput.value.split("-").join("/")
-  if(inputDate < formattedDate) {
-    document.querySelector(".past-date").innerText = "Please select a room in the  future!"
-  } else {
-    const openRooms = customer.filterRoomsByDate(bookings, rooms, date)
-    displayAvailableRooms(openRooms)
-  }
+  const openRooms = customer.filterRoomsByDate(bookings, rooms, date)
+  displayAvailableRooms(openRooms)
 }
 
 const filterRoomsByType = (customer) => {
@@ -153,8 +151,18 @@ const selectRoomToBook = (customer) => {
     "roomNumber": parseInt(postData[0]),
     "roomServiceCharges": []
   }
+  displayRoomBooked(dataToPost)
   bookRoom(dataToPost)
-  // location.reload()
+}
+
+const displayRoomBooked = (data) => {
+  searchResults.innerHTML = ''
+  document.querySelector('.search-results').innerText = 'Room You Booked'
+  searchResults.innerHTML =
+  `<article class="current-room-booked">Congratulations, you have booked the room below!
+    <p>Room Number: ${data.roomNumber}</p>
+    <p>Booking Date: ${data.date}</p>
+  </article>`
 }
 
 const bookRoom = (dataToPost) => {
