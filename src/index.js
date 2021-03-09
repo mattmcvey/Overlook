@@ -18,27 +18,59 @@ const roomTypeDropDown = document.querySelector('.roomType')
 const dateInput = document.querySelector('.date-input')
 const searchResults = document.querySelector('.search-results-display')
 const searchButton = document.querySelector('.submit-search')
+const loginButton = document.querySelector('.login-button')
+const userName = document.querySelector('.username-login')
+const password = document.querySelector('.password-login')
 
-const todaysDate = new Date()
-const formattedDate = moment(todaysDate).format('YYYY-MM-DD')
-startingValueDate.value = formattedDate
-startingValueDate.min = formattedDate
+let loggedInUser
+let formattedDate
 
-const allCustomersData =
+const findCustomerAndSetDate = () => {
+  setDate()
+  const userID = userName.value.split('r')
+  loggedInUser = "http://localhost:3001/api/v1/customers/" + userID[1]
+  if(userID[0] === 'custome' && parseInt(userID[1]) > 0 &&  parseInt(userID[1]) < 51 && password.value === 'overlook2021'){
+    document.querySelector('.login').classList.add('hidden')
+    document.querySelector('.customer-landing-page').classList.remove('hidden')
+    document.querySelector('.user').classList.remove('hidden')
+    fetchData()
+  } else {
+    
+  }
+}
+
+const setDate = () => {
+  const todaysDate = new Date()
+  formattedDate = moment(todaysDate).format('YYYY-MM-DD')
+  startingValueDate.value = formattedDate
+  startingValueDate.min = formattedDate
+}
+
+const fetchData = () => {
+  const singleCustomerData =
+  fetch(loggedInUser)
+  .then(response => response.json())
+
+  const allCustomersData =
   fetch("http://localhost:3001/api/v1/customers")
-    .then(response => response.json())
+  .then(response => response.json())
 
-const allRoomsData =
+  const allRoomsData =
   fetch("http://localhost:3001/api/v1/rooms")
-    .then(response => response.json())
+  .then(response => response.json())
 
-const allBookingsData =
+  const allBookingsData =
   fetch("http://localhost:3001/api/v1/bookings")
-    .then(response => response.json())
+  .then(response => response.json())
 
-Promise.all([allCustomersData, allBookingsData, allRoomsData])
+  intiatePromise(allCustomersData, allRoomsData, allBookingsData, singleCustomerData)
+}
+
+const intiatePromise = (allCustomersData, allRoomsData, allBookingsData, singleCustomerData) => {
+  Promise.all([allCustomersData, allBookingsData, allRoomsData, singleCustomerData])
   .then((allData) => {
-    const customer = new Customer(allData[0].customers[0])
+    console.log(allData[3])
+    const customer = new Customer(allData[3])
     const bookingData = allData[1].bookings
     const roomData = allData[2].rooms
     const totalSpent = customer.calculateAmountSpent(allData[2].rooms)
@@ -54,6 +86,7 @@ Promise.all([allCustomersData, allBookingsData, allRoomsData])
     })
     updateUserName(customer)
   })
+}
 
 const updateUserName = (customer) => {
   document.querySelector('.user').innerText = customer.name
@@ -72,7 +105,6 @@ const displayBookedRooms = (customer, bookingData) => {
 }
 
 const costOfAllRooms = (customer, roomData) => {
-  console.log(customer)
   const total = customer.calculateAmountSpent(roomData)
   totalCost.innerHTML =
     `<article class="total-spent">$${total}</article>`
@@ -147,3 +179,5 @@ const bookRoom = (dataToPost) => {
     console.log(error)
   })
 }
+
+loginButton.addEventListener('click', findCustomerAndSetDate)

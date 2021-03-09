@@ -9,39 +9,48 @@
   <body>
     <header>
       <h1 class="title">Overlook</h1>
-      <p class="user">username</p>
+      <p class="user hidden">username</p>
     </header>
-    <section class="profile">
-    <h2 class="profile-header">Profile</h2>
-      <section class="spent-container">
-        <h3>Total Spent</h3>
-        <article id="totalSpent"></article>
-      </section>
-      <h3>My Booked Rooms</h3>
-      <section class="booked-rooms-container">
-      </section>
+    <section class="login">
+      <label for="usernameLogin">Username: </label>
+      <input type="text" id="usernameLogin" class="username-login"></input>
+      <label for="passwordLogin">Password: </label>
+      <input type="text" id="passwordLogin" class="password-login"></input>
+      <button class="login-button">Login</button>
     </section>
-    <h2 class="book-a-room">Book A Room</h2>
-    <section class="book-room-section">
-      <div class="date">
-        <label for="date">Select A Date: </label>
-        <input type="date" id="date" class="date-input" name="book-date">
-      </div>
-      <div class="drop-down">
-        <label for="roomType">Select Room Type: </label>
-        <select id="roomType" class="roomType">
-          <option value="default">Select Room Type</option>
-          <option value="single room">Single Room</option>
-          <option value="residential suite">Residential Suite</option>
-          <option value="junior suite">Junior Suite</option>
-          <option value="suite">Suite</option>
-        </select>
-      </div>
-      <button class="submit-search">Search Rooms</button>
-    </section>
-    <section class="search-results-section">
-      <h3 class="search-results hidden">Search Results</h3>
-      <section class="search-results-display">
+    <section class="customer-landing-page hidden">
+      <section class="profile">
+      <h2 class="profile-header">Profile</h2>
+        <section class="spent-container">
+          <h3>Total Spent</h3>
+          <article id="totalSpent"></article>
+        </section>
+        <h3>My Booked Rooms</h3>
+        <section class="booked-rooms-container">
+        </section>
+      </section>
+      <h2 class="book-a-room">Book A Room</h2>
+      <section class="book-room-section">
+        <div class="date">
+          <label for="date">Select A Date: </label>
+          <input type="date" id="date" class="date-input" name="book-date">
+        </div>
+        <div class="drop-down">
+          <label for="roomType">Select Room Type: </label>
+          <select id="roomType" class="roomType">
+            <option value="default">Select Room Type</option>
+            <option value="single room">Single Room</option>
+            <option value="residential suite">Residential Suite</option>
+            <option value="junior suite">Junior Suite</option>
+            <option value="suite">Suite</option>
+          </select>
+        </div>
+        <button class="submit-search">Search Rooms</button>
+      </section>
+      <section class="search-results-section">
+        <h3 class="search-results hidden">Search Results</h3>
+        <section class="search-results-display">
+        </section>
       </section>
     </section>
     <!-- <img src="./images/turing-logo.png" alt="turing logo" height="100px" width="100px"> -->
