@@ -47,11 +47,17 @@ Promise.all([allCustomersData, allBookingsData, allRoomsData])
     searchButton.addEventListener('click', function() {
       filterMatchingRooms(customer, bookingData, roomData)
       filterRoomsByType(customer)
+      document.querySelector('.search-results').classList.remove('hidden')
     })
     searchResults.addEventListener('click', function() {
       selectRoomToBook(customer)
     })
+    updateUserName(customer)
   })
+
+const updateUserName = (customer) => {
+  document.querySelector('.user').innerText = customer.name
+}
 
 const displayBookedRooms = (customer, bookingData) => {
   const bookings = customer.findCustomerBookings(bookingData)
@@ -59,13 +65,9 @@ const displayBookedRooms = (customer, bookingData) => {
   bookings.forEach(booking => {
     bookedRooms.innerHTML +=
     `<article class="booked-rooms-card">
-      <p>Date Of Stay: ${booking.date}</p>
+      <p>Date Of Stay: ${moment(booking.date).format('MM-DD-YYYY')}</p>
       <p>Room Number: ${booking.roomNumber}</p>
     </article>`
-    // roomNumber.innerHTML +=
-    //   `<article class="booked-rooms left">${booking.roomNumber}</article>`
-    // dateStayed.innerHTML +=
-    //   `<article class="booked-rooms">${booking.date}</article>`
   })
 }
 
@@ -111,7 +113,7 @@ const displayAvailableRooms = (rooms) => {
       <p>Bidet: ${room.bidet}</p>
       <p>Bed Siz: ${room.bedSize}</p>
       <p>Number Of Beds: ${room.numBeds}</p>
-      <p>Room Cost: ${room.costPerNight}
+      <p>Room Cost: $${room.costPerNight}
     </article>`
   })
 }
@@ -126,6 +128,7 @@ const selectRoomToBook = (customer) => {
     "roomServiceCharges": []
   }
   bookRoom(dataToPost)
+  location.reload()
 }
 
 const bookRoom = (dataToPost) => {
