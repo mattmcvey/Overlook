@@ -111,7 +111,7 @@ const displayAvailableRooms = (rooms) => {
       <p>Room Number: ${room.number}</p>
       <p>Room Type: ${room.roomType}</p>
       <p>Bidet: ${room.bidet}</p>
-      <p>Bed Siz: ${room.bedSize}</p>
+      <p>Bed Size: ${room.bedSize}</p>
       <p>Number Of Beds: ${room.numBeds}</p>
       <p>Room Cost: $${room.costPerNight}
     </article>`
