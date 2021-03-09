@@ -48,7 +48,7 @@ describe("Customer", function() {
   });
   it('should calculate total spent on rooms', function() {
     customer.findCustomerBookings(bookings)
-    expect(customer.calculateAmountSpent(rooms)).to.equal(1258.4)
+    expect(customer.calculateAmountSpent(rooms)).to.equal('1,258.40')
   })
   it('should give back data of available rooms on given date', function() {
     expect(customer.filterRoomsByDate(bookings, rooms, "2020/01/10")).to.deep.equal([

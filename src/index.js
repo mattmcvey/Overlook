@@ -1,11 +1,6 @@
-// This is the JavaScript entry file - your code begins here
-// Do not delete or rename this file ********
-
-// An example of how you tell webpack to use a CSS (SCSS) file
 import './css/base.scss';
 import moment from "moment"
-// An example of how you tell webpack to use an image (also need to link to it in the index.html)
-import './images/turing-logo.png'
+
 import Customer from "./Customer"
 
 const bookedRooms = document.querySelector('.booked-rooms-container')
@@ -22,20 +17,19 @@ const loginButton = document.querySelector('.login-button')
 const userName = document.querySelector('.username-login')
 const password = document.querySelector('.password-login')
 
-let loggedInUser
 let formattedDate
 
 const findCustomerAndSetDate = () => {
   setDate()
   const userID = userName.value.split('r')
-  loggedInUser = "http://localhost:3001/api/v1/customers/" + userID[1]
+  const loggedInUser = "http://localhost:3001/api/v1/customers/" + userID[1]
   if(userID[0] === 'custome' && parseInt(userID[1]) > 0 &&  parseInt(userID[1]) < 51 && password.value === 'overlook2021'){
     document.querySelector('.login').classList.add('hidden')
     document.querySelector('.customer-landing-page').classList.remove('hidden')
     document.querySelector('.user').classList.remove('hidden')
-    fetchData()
+    fetchData(loggedInUser)
   } else {
-    
+
   }
 }
 
@@ -46,7 +40,7 @@ const setDate = () => {
   startingValueDate.min = formattedDate
 }
 
-const fetchData = () => {
+const fetchData = (loggedInUser) => {
   const singleCustomerData =
   fetch(loggedInUser)
   .then(response => response.json())
@@ -160,7 +154,7 @@ const selectRoomToBook = (customer) => {
     "roomServiceCharges": []
   }
   bookRoom(dataToPost)
-  location.reload()
+  // location.reload()
 }
 
 const bookRoom = (dataToPost) => {
