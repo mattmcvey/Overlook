@@ -3,9 +3,10 @@ const expect = chai.expect;
 import Customer from '../src/Customer'
 
 describe("Customer", function() {
-  let customer, bookings, rooms;
+  let customer, customer2, bookings, rooms;
   beforeEach(() => {
     customer = new Customer({id: 1, name: "Leatha Ullrich"})
+    customer2 = new Customer({id: 2, name: "Doug Phillips"})
     bookings =[
       {id: "5fwrgu4i7k55hl6sz", userID: 1, date: "2020/04/22", roomNumber: 15, roomServiceCharges: Array(0)},
       {id: "5fwrgu4i7k55hl6t5", userID: 43, date: "2020/01/24", roomNumber: 24, roomServiceCharges: Array(0)},
@@ -31,12 +32,24 @@ describe("Customer", function() {
       {number: 10, roomType: "suite", bidet: false, bedSize: "twin", numBeds: 1, costPerNight: 358.4}
     ]
   })
+  it('should be a function', function() {
+    expect(Customer).to.be.a('function')
+  });
+  it('should be an instance Customer', function() {
+    expect(customer).to.be.an.instanceof(Customer)
+  });
   it('should have an id', function() {
     expect(customer.id).to.equal(1);
   });
+  it('should be able to have a different id', function() {
+    expect(customer2.id).to.equal(2)
+  })
   it('should have a name', function() {
     expect(customer.name).to.equal("Leatha Ullrich")
   });
+  it('should be able to have a different name', function() {
+    expect(customer2.name).to.equal("Doug Phillips")
+  })
   it('should have customerBookings set to an empty array', function() {
     expect(customer.customerBookings).to.deep.equal([])
   });
@@ -49,126 +62,5 @@ describe("Customer", function() {
   it('should calculate total spent on rooms', function() {
     customer.findCustomerBookings(bookings)
     expect(customer.calculateAmountSpent(rooms)).to.equal('1,258.40')
-  })
-  it('should give back data of available rooms on given date', function() {
-    expect(customer.filterRoomsByDate(bookings, rooms, "2020/01/10")).to.deep.equal([
-  {
-    number: 1,
-    roomType: 'residential suite',
-    bidet: true,
-    bedSize: 'queen',
-    numBeds: 1,
-    costPerNight: 358.4
-  },
-  {
-    number: 3,
-    roomType: 'single room',
-    bidet: false,
-    bedSize: 'king',
-    numBeds: 1,
-    costPerNight: 358.4
-  },
-  {
-    number: 4,
-    roomType: 'single room',
-    bidet: false,
-    bedSize: 'queen',
-    numBeds: 1,
-    costPerNight: 358.4
-  },
-  {
-    number: 15,
-    roomType: 'single room',
-    bidet: true,
-    bedSize: 'queen',
-    numBeds: 2,
-    costPerNight: 200
-  },
-  {
-    number: 5,
-    roomType: 'junior suite',
-    bidet: true,
-    bedSize: 'queen',
-    numBeds: 1,
-    costPerNight: 700
-  },
-  {
-    number: 7,
-    roomType: 'single room',
-    bidet: false,
-    bedSize: 'queen',
-    numBeds: 2,
-    costPerNight: 358.4
-  },
-  {
-    number: 8,
-    roomType: 'junior suite',
-    bidet: false,
-    bedSize: 'king',
-    numBeds: 1,
-    costPerNight: 358.4
-  },
-  {
-    number: 9,
-    roomType: 'single room',
-    bidet: true,
-    bedSize: 'queen',
-    numBeds: 1,
-    costPerNight: 358.4
-  },
-  {
-    number: 10,
-    roomType: 'suite',
-    bidet: false,
-    bedSize: 'twin',
-    numBeds: 1,
-    costPerNight: 358.4
-  }
-])
-  })
-  it('should filter all available rooms by type', function() {
-    customer.filterRoomsByDate(bookings, rooms, "2020/01/10")
-    expect(customer.filterByRoomType('single room')).to.deep.equal([
-  {
-    number: 3,
-    roomType: 'single room',
-    bidet: false,
-    bedSize: 'king',
-    numBeds: 1,
-    costPerNight: 358.4
-  },
-  {
-    number: 4,
-    roomType: 'single room',
-    bidet: false,
-    bedSize: 'queen',
-    numBeds: 1,
-    costPerNight: 358.4
-  },
-  {
-    number: 15,
-    roomType: 'single room',
-    bidet: true,
-    bedSize: 'queen',
-    numBeds: 2,
-    costPerNight: 200
-  },
-  {
-    number: 7,
-    roomType: 'single room',
-    bidet: false,
-    bedSize: 'queen',
-    numBeds: 2,
-    costPerNight: 358.4
-  },
-  {
-    number: 9,
-    roomType: 'single room',
-    bidet: true,
-    bedSize: 'queen',
-    numBeds: 1,
-    costPerNight: 358.4
-  }
-])
-  })
+  });
 });

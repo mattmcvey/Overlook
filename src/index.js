@@ -1,6 +1,7 @@
 import './css/base.scss';
 import moment from "moment";
 import Customer from "./Customer";
+import Booking from "./Booking";
 
 const bookedRooms = document.querySelector('.booked-rooms-container');
 const roomNumber = document.getElementById('roomNumber');
@@ -64,15 +65,15 @@ const fetchData = (loggedInUser) => {
 const intiatePromise = (allCustomersData, allRoomsData, allBookingsData, singleCustomerData) => {
   Promise.all([allCustomersData, allBookingsData, allRoomsData, singleCustomerData])
   .then((allData) => {
-    const customer = new Customer(allData[3]);
     const bookingData = allData[1].bookings;
     const roomData = allData[2].rooms;
+    const booking = new Booking(bookingData, roomData)
+    const customer = new Customer(allData[3]);
     displayBookedRooms(customer, bookingData);
     costOfAllRooms(customer, roomData);
-    showBookedRoomsButton.addEventListener('click', toggleProfile);
     searchButton.addEventListener('click', function() {
-      filterMatchingRooms(customer, bookingData, roomData);
-      filterRoomsByType(customer);
+      filterMatchingRooms(booking);
+      filterRoomsByType(booking);
       document.querySelector('.search-results').classList.remove('hidden');
     });
     searchResults.addEventListener('click', function() {
@@ -116,15 +117,15 @@ const costOfAllRooms = (customer, roomData) => {
     `<article class="total-spent">$${total}</article>`;
 };
 
-const filterMatchingRooms = (customer, bookings, rooms) => {
+const filterMatchingRooms = (booking) => {
   const inputDate = dateInput.value.split("-").join("/");
-  const openRooms = customer.filterRoomsByDate(bookings, rooms, inputDate);
+  const openRooms = booking.filterRoomsByDate(inputDate);
   displayAvailableRooms(openRooms);
 }
 
-const filterRoomsByType = (customer) => {
+const filterRoomsByType = (booking) => {
   const type = roomType.value;
-  const availableRooms = customer.filterByRoomType(type);
+  const availableRooms = booking.filterByRoomType(type);
   displayAvailableRooms(availableRooms);
 };
 
@@ -203,5 +204,6 @@ const bookRoom = (dataToPost, customer, roomData) => {
   });
 };
 
+showBookedRoomsButton.addEventListener('click', toggleProfile);
 loginButton.addEventListener('click', findCustomerAndSetDate);
 showBookedRoomsButton.addEventListener('click', toggleProfile);
