@@ -189,6 +189,9 @@ const bookRoom = (dataToPost, customer, roomData) => {
     return response.json()
   })
   .then(res => {
+    customer.customerBookings.push(res.newBooking)
+    const newTotal = customer.calculateAmountSpent(roomData)
+    document.querySelector('.total-spent').innerText = newTotal
     bookedRooms.innerHTML +=
     `<article class="booked-rooms-card">
       <p>Date Of Stay: ${moment(res.newBooking.date).format('MM-DD-YYYY')}</p>
