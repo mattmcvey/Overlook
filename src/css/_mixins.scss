@@ -1,0 +1,19 @@
+@import 'variables';
+
+@mixin card-style() {
+  text-align: left;
+  border: 3px solid $header-and-card-outline-color;
+  margin-bottom: 5px;
+  padding: 5px;
+  border-radius: 10px;
+  background-color: white;
+  box-shadow: $box-shadows;
+}
+
+@mixin button-style() {
+  margin-top: 5px;
+  font-size: 20px;
+  background-color: $banner-and-button-color;
+  border-radius: 5px;
+  color: white;
+}

@@ -1,24 +1,43 @@
-/* This is an example of using Sass, otherwise plain CSS works too*/
-$primary-background: radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%);
-;
+@import 'variables';
+@import 'mixins';
 
 body {
  margin: 0;
- font-family: "RocknRoll One"
+ font-family: "RocknRoll One";
 }
 
 header {
   display: flex;
   justify-content: space-between;
-  background-color: #BAD4FA;
+  background-color: $header-and-card-outline-color;
   width: 100%;
   .user {
-    margin-right: 10px;
-    margin-top: 30px;
+    margin: 30px 10px 0px 0px;
   }
   .title {
     margin-left: 10px;
   }
+}
+
+.login {
+  display: $flex-dispaly;
+  flex-direction: column;
+  background-color: $section-background-color;
+  margin: auto;
+  padding: 10px;
+  width: 20%;
+  border-radius: 0px 0px 10px 10px;
+  .login-button {
+    @include button-style()
+  }
+  .username-login, .password-login {
+    border-radius: 5px;
+  }
+}
+
+.login-error {
+  text-align: center;
+  color: red;
 }
 
 h2 {
@@ -26,65 +45,52 @@ h2 {
 }
 
 h3 {
-  background-color: #4594EB;
+  background-color: $banner-and-button-color;
   padding: 5px;
-  text-align: center;
+  text-align: $align-center;
 }
 
 .profile {
-  text-align: center;
-  background-color: #E8E8E8;
+  text-align: $align-center;
+  background-color: $section-background-color;
   padding-bottom: 10px;
   margin: 10px;
   border-radius: 10px;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19);
+  box-shadow: $box-shadows;
   .profile-header{
     text-align: left;
   }
 }
 
+.show-booked-rooms {
+  @include button-style()
+}
+
 .booked-rooms-container {
-  display: flex;
+  display: $flex-dispaly;
   flex-wrap: wrap;
   justify-content: space-around;
   .booked-rooms-card {
-    text-align: left;
-    border: 3px solid #BAD4FA;
-    margin-bottom: 5px;
-    padding: 5px;
-    border-radius: 10px;
-    background-color: white;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19);
+    @include card-style()
   }
 }
 
 .book-room-section {
-  display: flex;
+  display: $flex-dispaly;
   justify-content: space-around;
 }
 
 .search-results-display {
-  display: flex;
-  justify-content: space-around;
-  text-align: center;
-}
-
-.search-results-display {
-  display: flex;
+  display: $flex-dispaly;
   flex-wrap: wrap;
   justify-content: space-around;
   .search-results {
-    text-align: left;
-    border: 3px solid #BAD4FA;
-    margin-bottom: 5px;
-    padding: 5px;
-    border-radius: 10px;
-    background-color: white;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19);
+    @include card-style()
   }
   .search-results:hover {
-    background-color: #BAD4FA;
+    background-color: $header-and-card-outline-color;
     color: white;
+    cursor: pointer;
   }
 }
 
@@ -95,13 +101,13 @@ h3 {
 .book-a-room {
   text-align: left;
   margin-bottom: 0;
+  margin-top: 20px;
   border-radius: 10px 10px 0px 0px;
   padding: 10px;
 }
 
 .book-room-section {
-  margin-top: 0px;
-  margin-bottom: 0px;
+  margin: 0px 10px 0px 10px;
   border-radius: 0px;
   box-shadow: none;
 }
@@ -112,9 +118,35 @@ h3 {
 }
 
 .search-results {
-    margin-top: 0px;
+  margin-top: 0px;
+}
+
+.submit-search {
+  @include button-style()
+}
+
+.current-room-booked {
+  @include card-style()
 }
 
 .hidden {
   display:none;
+}
+
+@media screen and (max-width: 624px) {
+  .login {
+    margin: auto;
+    padding: 10px;
+    width: 40%;
+    border-radius: 0px 0px 10px 10px;
+  }
+
+  .book-room-section{
+    display: $flex-dispaly;
+    flex-direction: column;
+    .submit-search {
+      width: 50%;
+      margin: auto;
+    }
+  }
 }
