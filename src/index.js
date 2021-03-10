@@ -1,6 +1,6 @@
 import './css/base.scss';
-import moment from "moment"
-
+import moment from "moment";
+import querySelectors from './querySelectors'
 import Customer from "./Customer"
 
 const bookedRooms = document.querySelector('.booked-rooms-container')
@@ -17,7 +17,7 @@ const loginButton = document.querySelector('.login-button')
 const userName = document.querySelector('.username-login')
 const password = document.querySelector('.password-login')
 const loginError = document.querySelector('.login-error')
-
+const showBookedRoomsButton = document.querySelector('.show-booked-rooms')
 let formattedDate
 
 const findCustomerAndSetDate = () => {
@@ -65,20 +65,20 @@ const fetchData = (loggedInUser) => {
 const intiatePromise = (allCustomersData, allRoomsData, allBookingsData, singleCustomerData) => {
   Promise.all([allCustomersData, allBookingsData, allRoomsData, singleCustomerData])
   .then((allData) => {
-    console.log(allData[3])
     const customer = new Customer(allData[3])
     const bookingData = allData[1].bookings
     const roomData = allData[2].rooms
     const totalSpent = customer.calculateAmountSpent(allData[2].rooms)
     displayBookedRooms(customer, bookingData)
     costOfAllRooms(customer, roomData, totalSpent)
+    showBookedRoomsButton.addEventListener('click', toggleProfile)
     searchButton.addEventListener('click', function() {
       filterMatchingRooms(customer, bookingData, roomData)
       filterRoomsByType(customer)
       document.querySelector('.search-results').classList.remove('hidden')
     })
     searchResults.addEventListener('click', function() {
-      selectRoomToBook(customer)
+      selectRoomToBook(customer, roomData)
     })
     updateUserName(customer)
   })
@@ -86,6 +86,18 @@ const intiatePromise = (allCustomersData, allRoomsData, allBookingsData, singleC
 
 const updateUserName = (customer) => {
   document.querySelector('.user').innerText = customer.name
+}
+
+const toggleProfile = () => {
+  document.querySelector('.spent-banner').classList.toggle('hidden')
+  document.querySelector('.booked-rooms-banner').classList.toggle('hidden')
+  document.querySelector('.total-spent-container').classList.toggle('hidden')
+  document.querySelector('.booked-rooms-container').classList.toggle('hidden')
+  if( document.querySelector('.spent-banner').classList.contains('hidden')) {
+    showBookedRoomsButton.innerText = 'Show My Profile Info'
+  } else {
+    showBookedRoomsButton.innerText = 'Hide Profile Details'
+  }
 }
 
 const displayBookedRooms = (customer, bookingData) => {
@@ -108,17 +120,14 @@ const costOfAllRooms = (customer, roomData) => {
 
 const filterMatchingRooms = (customer, bookings, rooms) => {
   const inputDate = dateInput.value.split("-").join("/")
-  const openRooms = customer.filterRoomsByDate(bookings, rooms, date)
+  const openRooms = customer.filterRoomsByDate(bookings, rooms, inputDate)
   displayAvailableRooms(openRooms)
 }
 
 const filterRoomsByType = (customer) => {
   const type = roomType.value
-  if(!customer.availableRooms.length) {
-    document.querySelector(".past-date").innerText = "Please choose a date before selecting room type."
-  }
-  const openRooms = customer.filterByRoomType(type)
-  displayAvailableRooms(openRooms)
+  const availableRooms = customer.filterByRoomType(type)
+  displayAvailableRooms(availableRooms)
 }
 
 const displayAvailableRooms = (rooms) => {
@@ -142,7 +151,10 @@ const displayAvailableRooms = (rooms) => {
   })
 }
 
-const selectRoomToBook = (customer) => {
+const selectRoomToBook = (customer, roomData) => {
+  if(!event.target.id) {
+    return
+  }
   const postInfo = event.target.closest('article')
   const postData = postInfo.id.split('-')
   const dataToPost = {
@@ -152,7 +164,7 @@ const selectRoomToBook = (customer) => {
     "roomServiceCharges": []
   }
   displayRoomBooked(dataToPost)
-  bookRoom(dataToPost)
+  bookRoom(dataToPost, customer, roomData)
 }
 
 const displayRoomBooked = (data) => {
@@ -161,11 +173,11 @@ const displayRoomBooked = (data) => {
   searchResults.innerHTML =
   `<article class="current-room-booked">Congratulations, you have booked the room below!
     <p>Room Number: ${data.roomNumber}</p>
-    <p>Booking Date: ${data.date}</p>
+    <p>Booking Date: ${moment(data.date).format('MM-DD-YYYY')}</p>
   </article>`
 }
 
-const bookRoom = (dataToPost) => {
+const bookRoom = (dataToPost, customer, roomData) => {
   fetch("http://localhost:3001/api/v1/bookings", {
     method: "POST",
     headers: {'Content-Type': 'application/json'},
@@ -177,9 +189,17 @@ const bookRoom = (dataToPost) => {
     }
     return response.json()
   })
+  .then(res => {
+    bookedRooms.innerHTML +=
+    `<article class="booked-rooms-card">
+      <p>Date Of Stay: ${moment(res.newBooking.date).format('MM-DD-YYYY')}</p>
+      <p>Room Number: ${res.newBooking.roomNumber}</p>
+    </article>`
+  })
   .catch(error => {
     console.log(error)
   })
 }
 
 loginButton.addEventListener('click', findCustomerAndSetDate)
+showBookedRoomsButton.addEventListener('click', toggleProfile)
