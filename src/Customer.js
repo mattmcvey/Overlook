@@ -21,9 +21,9 @@ class Customer {
       return totalSpent;
     }, 0)
     const trimmedTotal = total.toFixed(2);
-    let totalFormatted = trimmedTotal.toString().split(".");
-    totalFormatted[0] = totalFormatted[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    return totalFormatted.join(".");
+    let totalFormatted = trimmedTotal.toString().split('.');
+    totalFormatted[0] = totalFormatted[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    return totalFormatted.join('.');
   }
   filterRoomsByDate(bookings, rooms, date) {
     this.unavailableRooms = bookings.reduce((acc, booking) => {
